@@ -10,6 +10,7 @@ pipeline {
 
         stage('Build Project') {
             steps {
+                bat 'echo %JAVA_HOME%'
                 bat 'mvn clean package'
             }
         }
