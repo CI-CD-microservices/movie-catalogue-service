@@ -23,10 +23,10 @@ pipeline {
             }
         }
 
-         stage('Deploying Service container to Kubernetes') {
+         stage('Deploying Service Container to Kubernetes') {
             steps {
                 script {
-                    kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+                    bat 'minikube image ls'
                 }
             }
          }
