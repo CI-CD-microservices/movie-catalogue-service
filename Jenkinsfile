@@ -15,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Build Image') {
+        stage('Build Image To Local Registry') {
             steps {
                 script {
                     dockerImage = docker.build dockerImageName
@@ -23,19 +23,13 @@ pipeline {
             }
         }
 
-        stage('Pushing Image To Local Docker Registry') {
-            environment {
-                registryCredentials = 'dockerhub-credentials'
-                localRegistryURL = 'http://localhost:5000'
-            }
+         stage('Deploying Service container to Kubernetes') {
             steps {
                 script {
-                    docker.withRegistry(localRegistryURL, registryCredentials) {
-                        dockerImage.push('latest')
-                    }
+                    kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
                 }
             }
-        }
+         }
 
     }
 }
