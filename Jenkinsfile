@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        dockerImageName = 'ci-cd/movie-catalogue-service'
+        dockerImageName = 'aissambsf/movie-catalogue-service'
         dockerImage = ""
       }
 
