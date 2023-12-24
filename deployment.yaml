@@ -15,5 +15,6 @@ spec:
       containers:
         - name: movie-catalogue-service
           image: aissambsf/movie-catalogue-service:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080
