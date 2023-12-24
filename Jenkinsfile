@@ -5,32 +5,34 @@ pipeline {
       }
 
     agent any
+    node {
+        stages {
 
-    stages {
-
-        stage('Build Project') {
-            steps {
-                bat 'echo %JAVA_HOME%'
-                bat 'mvn clean package'
-            }
-        }
-
-        stage('Build Image To Local Registry') {
-            steps {
-                script {
-                    dockerImage = docker.build dockerImageName
+                stage('Build Project') {
+                    steps {
+                        bat 'echo %JAVA_HOME%'
+                        bat 'mvn clean package'
+                    }
                 }
-            }
-        }
-        node {
-          stage('Deploying Service Container to Kubernetes') {
-            withKubeConfig([credentialsId: 'mykubeconfig']) {
-                bat 'kubectl get pods'
-                bat 'kubectl apply -f deployment.yaml'
-                bat 'kubectl get pods'
-            }
-          }
-        }
 
+                stage('Build Image To Local Registry') {
+                    steps {
+                        script {
+                            dockerImage = docker.build dockerImageName
+                        }
+                    }
+                }
+
+                  stage('Deploying Service Container to Kubernetes') {
+                    withKubeConfig([credentialsId: 'mykubeconfig']) {
+                        bat 'kubectl get pods'
+                        bat 'kubectl apply -f deployment.yaml'
+                        bat 'kubectl get pods'
+                    }
+                  }
+
+
+            }
     }
+
 }
