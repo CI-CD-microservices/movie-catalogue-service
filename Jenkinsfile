@@ -30,7 +30,7 @@ pipeline {
                     steps {
                         script {
                             //dockerImage = docker.build  dockerImageName
-                            bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password=stdin'
+                            bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                         }
                     }
                 }
