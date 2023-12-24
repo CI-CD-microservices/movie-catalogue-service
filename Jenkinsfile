@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        dockerImageName = 'aissambsf/movie-catalogue-service'
+        dockerImageName = 'aissambsf/movie-catalogue-service' + ":$BUILD_NUMBER"
         dockerImage = ""
 
       }
@@ -19,8 +19,15 @@ pipeline {
         stage('Build Image To Local Registry') {
             steps {
                 script {
-                    dockerImageName = dockerImageName + ":$BUILD_NUMBER"
                     dockerImage = docker.build  dockerImageName
+                }
+            }
+        }
+
+        stage('Load Image To Minikube') {
+            steps {
+                script {
+                    bat 'minikube image load ${dockerImageName}'
                 }
             }
         }
