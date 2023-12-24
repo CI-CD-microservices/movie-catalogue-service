@@ -55,14 +55,13 @@ pipeline {
                          }
                      }
                   }
-          }
 
-          stage('update deployment') {
-            steps {
-                withKubeConfig([credentialsId: 'mykubeconfig']) {
-                    bat "kubectl set image deployments/"+deploymentName+" "+ containerName +"="+ dockerImageName+":latest"
-                }
-            }
-          }
-
+                  stage('update deployment') {
+                              steps {
+                                  withKubeConfig([credentialsId: 'mykubeconfig']) {
+                                      bat "kubectl set image deployments/"+deploymentName+" "+ containerName +"="+ dockerImageName+":latest"
+                                  }
+                              }
+                            }
+}
 }
