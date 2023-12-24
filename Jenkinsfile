@@ -29,8 +29,8 @@ pipeline {
         stage('Login To DockerHub') {
                     steps {
                         script {
-                            //dockerImage = docker.build  dockerImageName
-                            bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                            dockerImage = docker.build  dockerImageName
+                            //bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                         }
                     }
                 }
@@ -38,10 +38,10 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                   // docker.withRegistry('https://registry.hub.docker.com', registryCredentials) {
-                   //     dockerImage.push()
-                   // }
-                   bat "docker push " + dockerImageName
+                    docker.withRegistry('', registryCredentials) {
+                        dockerImage.push()
+                    }
+                   //bat "docker push " + dockerImageName
                 }
             }
         }
