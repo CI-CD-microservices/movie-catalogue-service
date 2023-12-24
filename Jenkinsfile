@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        dockerImageName = 'aissambsf/movie-catalogue-service'
+        dockerImageName = 'aissambsf/movie-catalogue-service:${BUILD_NUMBER}'
         dockerImage = ""
         registryCredentials = "dockerhub-credentials"
         deploymentName = "movie-catalogue-service"
@@ -59,7 +59,7 @@ pipeline {
                   stage('update deployment') {
                               steps {
                                   withKubeConfig([credentialsId: 'mykubeconfig']) {
-                                      bat "kubectl set image deployments/"+deploymentName+" "+ containerName +"="+ dockerImageName+":latest"
+                                      bat "kubectl set image deployments/"+deploymentName+" "+ containerName +"="+ dockerImageName
                                   }
                               }
                             }
