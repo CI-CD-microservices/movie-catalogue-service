@@ -19,7 +19,7 @@ pipeline {
         stage('Build Image To Local Registry') {
             steps {
                 script {
-                    dockerImage = docker.build ${env.JENKINS_URL} + dockerImageName + ":$BUILD_NUMBER"
+                    dockerImage = docker.build "$JENKINS_URL" + dockerImageName + ":$BUILD_NUMBER"
                 }
             }
         }
