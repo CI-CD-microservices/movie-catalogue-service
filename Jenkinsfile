@@ -2,6 +2,7 @@ pipeline {
     environment {
         dockerImageName = 'aissambsf/movie-catalogue-service' + ":$BUILD_NUMBER"
         dockerImage = ""
+        registryCredentials = "dockerhub-credentials"
 
       }
 
@@ -16,7 +17,7 @@ pipeline {
             }
         }
 
-        stage('Build Image To Local Registry') {
+        stage('Build Image ') {
             steps {
                 script {
                     dockerImage = docker.build  dockerImageName
@@ -24,10 +25,12 @@ pipeline {
             }
         }
 
-        stage('Load Image To Minikube') {
+        stage('Push Image To DockerHub') {
             steps {
-                withKubeConfig([credentialsId: 'mykubeconfig']) {
-                    bat 'minikube image load ${dockerImageName}'
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredentials) {
+                        dockerImage.push()
+                    }
                 }
             }
         }
@@ -49,7 +52,5 @@ pipeline {
                          }
                      }
                   }
-
-
     }
 }
