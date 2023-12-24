@@ -1,38 +1,36 @@
-pipeline {
+node {
     environment {
         dockerImageName = 'aissambsf/movie-catalogue-service'
         dockerImage = ""
       }
 
     agent any
-    node {
-        stages {
 
-                stage('Build Project') {
-                    steps {
-                        bat 'echo %JAVA_HOME%'
-                        bat 'mvn clean package'
-                    }
-                }
+    stages {
 
-                stage('Build Image To Local Registry') {
-                    steps {
-                        script {
-                            dockerImage = docker.build dockerImageName
-                        }
-                    }
-                }
-
-                  stage('Deploying Service Container to Kubernetes') {
-                    withKubeConfig([credentialsId: 'mykubeconfig']) {
-                        bat 'kubectl get pods'
-                        bat 'kubectl apply -f deployment.yaml'
-                        bat 'kubectl get pods'
-                    }
-                  }
-
-
+        stage('Build Project') {
+            steps {
+                bat 'echo %JAVA_HOME%'
+                bat 'mvn clean package'
             }
-    }
+        }
 
+        stage('Build Image To Local Registry') {
+            steps {
+                script {
+                    dockerImage = docker.build dockerImageName
+                }
+            }
+        }
+
+          stage('Deploying Service Container to Kubernetes') {
+            withKubeConfig([credentialsId: 'mykubeconfig']) {
+                bat 'kubectl get pods'
+                bat 'kubectl apply -f deployment.yaml'
+                bat 'kubectl get pods'
+            }
+          }
+
+
+    }
 }
