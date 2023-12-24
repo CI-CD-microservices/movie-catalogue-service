@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        dockerImageName = 'aissambsf/movie-catalogue-service' + ":$BUILD_NUMBER"
+        dockerImageName = 'aissambsf/movie-catalogue-service'
         dockerImage = ""
         registryCredentials = "dockerhub-credentials"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
@@ -17,16 +17,7 @@ pipeline {
             }
         }
 
-        stage('Build Image ') {
-            steps {
-                script {
-                    //dockerImage = docker.build  dockerImageName
-                    bat "docker build -t " + dockerImageName + " ."
-                }
-            }
-        }
-
-        stage('Login To DockerHub') {
+        stage('Build Image') {
                     steps {
                         script {
                             dockerImage = docker.build  dockerImageName
