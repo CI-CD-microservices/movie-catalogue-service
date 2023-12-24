@@ -1,4 +1,4 @@
-node {
+pipeline {
     environment {
         dockerImageName = 'aissambsf/movie-catalogue-service'
         dockerImage = ""
