@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        dockerImageName = 'aissambsf/movie-catalogue-service:${BUILD_NUMBER}'
+        dockerImageName = 'aissambsf/movie-catalogue-service' + ":$BUILD_NUMBER"
         dockerImage = ""
         registryCredentials = "dockerhub-credentials"
         deploymentName = "movie-catalogue-service"
