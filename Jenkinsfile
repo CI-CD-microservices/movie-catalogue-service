@@ -18,6 +18,9 @@ pipeline {
         stage('Build Image To Local Registry') {
             steps {
                 script {
+                    withKubeConfig([credentialsId: 'mykubeconfig']) {
+                        bat 'minikube docker-env | Invoke-Expression'
+                    }
                     dockerImage = docker.build dockerImageName
                 }
             }
@@ -32,6 +35,14 @@ pipeline {
                             }
             }
          }
+
+          stage('Apply Service Configuration') {
+                     steps {
+                         withKubeConfig([credentialsId: 'mykubeconfig']) {
+                            bat 'kubectl apply -f service.yaml'
+                         }
+                     }
+                  }
 
 
     }
