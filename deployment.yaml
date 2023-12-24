@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: movie-catalogue-service
-          image: aissambsf/movie-catalogue-service:$BUILD_NUMBER
+          image: aissambsf/movie-catalogue-service
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
