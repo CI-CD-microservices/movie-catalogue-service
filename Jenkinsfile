@@ -44,6 +44,8 @@ pipeline {
                                 bat 'kubectl get pods'
                                 bat 'kubectl apply -f deployment.yaml'
                                 bat 'kubectl get pods'
+                                bat "kubectl set image deployments/"+deploymentName+" "+ containerName +"="+ dockerImageName
+
                             }
             }
          }
@@ -52,7 +54,6 @@ pipeline {
                      steps {
                          withKubeConfig([credentialsId: 'mykubeconfig']) {
                             bat 'kubectl apply -f service.yaml'
-                            bat "kubectl set image deployments/"+deploymentName+" "+ containerName +"="+ dockerImageName
                          }
                      }
                   }
