@@ -22,12 +22,15 @@ pipeline {
                 }
             }
         }
-
-         stage('Deploying Service Container to Kubernetes') {
-            steps {
-               bat 'kubectl cluster-info'
+        node {
+          stage('Deploying Service Container to Kubernetes') {
+            withKubeConfig([credentialsId: 'mykubeconfig']) {
+                bat 'kubectl get pods'
+                bat 'kubectl apply -f deployment.yaml'
+                bat 'kubectl get pods'
             }
-         }
+          }
+        }
 
     }
 }
