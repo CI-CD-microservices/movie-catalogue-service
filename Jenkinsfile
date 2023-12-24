@@ -3,7 +3,8 @@ pipeline {
         dockerImageName = 'aissambsf/movie-catalogue-service'
         dockerImage = ""
         registryCredentials = "dockerhub-credentials"
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
+        deploymentName = "movie-catalogue-service"
+        containerName = "movie-catalogue-service"
       }
 
     agent any
@@ -51,6 +52,7 @@ pipeline {
                      steps {
                          withKubeConfig([credentialsId: 'mykubeconfig']) {
                             bat 'kubectl apply -f service.yaml'
+                            bat "kubectl set image deployments/"+deploymentName+" "+ containerName +"="+ dockerImageName
                          }
                      }
                   }
