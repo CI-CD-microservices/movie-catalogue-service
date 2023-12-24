@@ -2,6 +2,7 @@ pipeline {
     environment {
         dockerImageName = 'aissambsf/movie-catalogue-service'
         dockerImage = ""
+
       }
 
     agent any
@@ -18,7 +19,7 @@ pipeline {
         stage('Build Image To Local Registry') {
             steps {
                 script {
-                    dockerImage = docker.build dockerImageName + ":$BUILD_NUMBER"
+                    dockerImage = docker.build ${env.JENKINS_URL} + dockerImageName + ":$BUILD_NUMBER"
                 }
             }
         }
