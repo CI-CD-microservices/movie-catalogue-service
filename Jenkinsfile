@@ -26,7 +26,7 @@ pipeline {
 
         stage('Load Image To Minikube') {
             steps {
-                script {
+                withKubeConfig([credentialsId: 'mykubeconfig']) {
                     bat 'minikube image load ${dockerImageName}'
                 }
             }
