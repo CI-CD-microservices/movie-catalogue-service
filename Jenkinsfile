@@ -18,7 +18,7 @@ pipeline {
         stage('Build Image To Local Registry') {
             steps {
                 script {
-                    dockerImage = docker.build dockerImageName
+                    dockerImage = docker.build dockerImageName + ":$BUILD_NUMBER"
                 }
             }
         }
