@@ -15,7 +15,7 @@ public class MovieCatalogRessource {
     @RequestMapping("/{userId}")
     public List<ItemCatalog> getCatalog(@PathVariable("userId") String userId) {
         return Collections.singletonList(
-                new ItemCatalog("Transformers New Version 4", "Sci-fi film", 4)
+                new ItemCatalog("Transformers New Version 5", "Sci-fi film", 4)
         );
     }
 }
