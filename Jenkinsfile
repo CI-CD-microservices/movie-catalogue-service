@@ -25,9 +25,7 @@ pipeline {
 
          stage('Deploying Service Container to Kubernetes') {
             steps {
-                script {
-                    bat 'minikube image ls'
-                }
+               bat 'kubectl cluster-info'
             }
          }
 
