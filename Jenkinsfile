@@ -3,7 +3,7 @@ pipeline {
         dockerImageName = 'aissambsf/movie-catalogue-service' + ":$BUILD_NUMBER"
         dockerImage = ""
         registryCredentials = "dockerhub-credentials"
-
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
       }
 
     agent any
@@ -20,17 +20,28 @@ pipeline {
         stage('Build Image ') {
             steps {
                 script {
-                    dockerImage = docker.build  dockerImageName
+                    //dockerImage = docker.build  dockerImageName
+                    bat "docker build -t " + dockerImageName + " ."
                 }
             }
         }
 
-        stage('Push Image To DockerHub') {
+        stage('Login To DockerHub') {
+                    steps {
+                        script {
+                            //dockerImage = docker.build  dockerImageName
+                            bat 'docker $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password=stdin'
+                        }
+                    }
+                }
+
+        stage('Push Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredentials) {
-                        dockerImage.push()
-                    }
+                   // docker.withRegistry('https://registry.hub.docker.com', registryCredentials) {
+                   //     dockerImage.push()
+                   // }
+                   bat "docker push " + dockerImageName
                 }
             }
         }
@@ -52,5 +63,11 @@ pipeline {
                          }
                      }
                   }
+
+           post {
+            always {
+                bat 'docker logout'
+            }
+           }
     }
 }
