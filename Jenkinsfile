@@ -18,9 +18,6 @@ pipeline {
         stage('Build Image To Local Registry') {
             steps {
                 script {
-                    withKubeConfig([credentialsId: 'mykubeconfig']) {
-                        bat 'minikube docker-env | Invoke-Expression'
-                    }
                     dockerImage = docker.build dockerImageName
                 }
             }
